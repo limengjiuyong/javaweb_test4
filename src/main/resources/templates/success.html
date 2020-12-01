@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>选课成功</title>
+
+<script type="text/javascript" src="./jquery/jquery-3.5.1.js"></script>
+<link href="./bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet" type="text/css"> 
+<script src="./bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+</head>
+<body>
+<h2>学生信息</h2>
+<table class="table table-bordered">
+<tr >
+ <td >姓名</td>
+ <td >学号</td>
+ <td >年级</td>
+ <td >专业</td>
+ <td >学院</td>
+ </tr>
+ <tr th:each="student:${student}">
+ <td th:text="${student.name}"></td>
+ <td th:text="${student.xuehao}"></td>
+ <td th:text="${student.nianji}"></td>
+ <td th:text="${student.zhuanye}"></td>
+ <td th:text="${student.xueyuan}"></td>
+ </tr>
+ </table>
+ <h2>选课结果</h2>
+ <table class="table table-bordered">
+ <tr th:each="course:${cou}">
+ <td th:text="${course.cname}"></td>
+ </tr>
+ </table>
+
+</body>
+</html>
