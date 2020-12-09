@@ -1,15 +1,27 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="UTF-8">
 <title>选课成功</title>
 
-<script type="text/javascript" src="./jquery/jquery-3.5.1.js"></script>
-<link href="./bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet" type="text/css"> 
-<script src="./bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+<script type="text/javascript" src="../jquery/jquery-3.5.1.js"></script>
+<link href="../bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet" type="text/css"> 
+<script src="../bootstrap-3.3.7-dist/js/bootstrap.js"></script>
 </head>
 <body>
-<h2>学生信息</h2>
+<nav class="navbar navbar-default">
+<div class="row">
+  <div class="col-xs-12 col-md-8">
+   <h1 sec:authentication="name"></h1>
+  </div>
+  <div class="col-xs-6 col-md-4"> 
+  <form action="/logout"  method="get">
+   <input value="退出" class="btn btn-default"  type="submit" >
+</form>
+  </div>
+</div>
+</nav>
+<h1>学生信息</h1>
 <table class="table table-bordered">
 <tr >
  <td >姓名</td>
@@ -18,18 +30,18 @@
  <td >专业</td>
  <td >学院</td>
  </tr>
- <tr th:each="student:${student}">
- <td th:text="${student.name}"></td>
- <td th:text="${student.xuehao}"></td>
- <td th:text="${student.nianji}"></td>
- <td th:text="${student.zhuanye}"></td>
- <td th:text="${student.xueyuan}"></td>
+  <tr >
+ <td sec:authentication="principal.username"></td>
+ <td sec:authentication="principal.userid"></td>
+ <td sec:authentication="principal.nianji"></td>
+ <td sec:authentication="principal.zhuanye"></td>
+ <td sec:authentication="principal.xueyuan"></td>
  </tr>
  </table>
  <h2>选课结果</h2>
  <table class="table table-bordered">
- <tr th:each="course:${cou}">
- <td th:text="${course.cname}"></td>
+ <tr th:each="cou:${course}">
+ <td th:text="${cou.cname}"></td>
  </tr>
  </table>
 

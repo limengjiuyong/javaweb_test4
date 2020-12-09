@@ -1,26 +1,34 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="UTF-8">
 <title>选课列表</title>
-<script type="text/javascript" src="./jquery/jquery-3.5.1.js"></script>
-<link href="./bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet" type="text/css"> 
-<script src="./bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+<script type="text/javascript" src="../jquery/jquery-3.5.1.js"></script>
+<link href="../bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet" type="text/css"> 
+<script src="../bootstrap-3.3.7-dist/js/bootstrap.js"></script>
 </head>
 <body>
+<nav class="navbar navbar-default">
+<div class="row">
+  <div class="col-xs-12 col-md-8">
+   <h1 sec:authentication="name"></h1>
+  </div>
+  <div class="col-xs-6 col-md-4"> 
+  <form action="/logout"  method="get">
+   <input value="退出" class="btn btn-default"  type="submit" >
+</form>
+  </div>
+</div>
+</nav>
 <table class="table table-bordered">
- <tr th:each="course,cou:${course}">
+ <tr th:each="cou:${course}">
   <!-- <td th:text="${course.cname}"> </td> -->
-  <td><input th:value="${course.cid}" th:text="${course.cname}" th:type="checkbox" th:name="checkbox" th:id="checkbox"/></td>
+  <td><input th:value="${cou.cid}" th:text="${cou.cname}" th:type="checkbox" th:name="checkbox" th:id="checkbox"/></td>
  </tr>
  </table>
  
- <button id="btn"> 提交  </button>
- <div id="dd" style="display:none;">
- <form action="/success1" method="get">
-   <input type="submit" value="查看选课">
-</form>
-</div>
+ <button id="btn" class="btn btn-info"> 提交  </button>
+ 
 <script type="text/javascript">
 
 $("#btn").click(function() {
@@ -29,10 +37,7 @@ $("#btn").click(function() {
 	
 });
 
-function Display() {
-	$("#dd").attr("style","display:block;"); //style中的display属性
-	  
-	}
+
 
    function tijiao(){
                 var checkID=[];
@@ -41,7 +46,7 @@ function Display() {
                 });
 
                 $.ajax({
-                	  url:'/success',
+                	  url:'/user/success',
                 	  data:{'checkID':checkID},
                       dataType:'text',
                       type:'get',
@@ -49,8 +54,8 @@ function Display() {
                       contentType:'application/json',
                       success: function(data){
                         alert(data);
-                       
-                        Display();
+                       window.location.href="/user/selectinfo";
+                      
                         
                       }
                  
