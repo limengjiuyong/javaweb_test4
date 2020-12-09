@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.Dao.StudentInfoMapper" >
+
+ <select id="loadSeudentInfoByName" resultType ="com.example.demo.enity.StudentInfo">
+ select * from stu_info where username=#{username}
+ </select>
+ <select id="getseudentInfoRolesById" resultType ="com.example.demo.enity.Role">
+ select * from role r,user_role ur where r.rid=ur.rid and ur.uid=#{userid}
+ </select>
+ <insert id="insert" parameterType="com.example.demo.enity.StudentInfo">
+    insert into stu_info (userid, username, nianji,xueyuan,zhuanye,password,enable,locked)
+    values (#{userid,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{nianji,jdbcType=VARCHAR},#{xueyuan,jdbcType=VARCHAR},#{zhuanye,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},#{enable,jdbcType=TINYINT},#{locked,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertUserRole" parameterType="com.example.demo.enity.UserRole">
+    insert into user_role (uid, rid)
+    values (#{uid,jdbcType=INTEGER}, #{rid,jdbcType=INTEGER})
+  </insert>
+  
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultType="com.example.demo.enity.StudentInfo">
+    select * from stu_info
+    where userid = #{userid,jdbcType=INTEGER}
+  </select>
+  <!-- 查询所有课程 -->
+   <insert id="selectUserCourse" parameterType="com.example.demo.enity.Course">
+    select * from course
+  </insert>
+  <!-- 查询已选课程 -->
+  <select id="selectSelectedCourse" parameterType="java.lang.Integer" resultType="com.example.demo.enity.Course">
+    select distinct cid,cname from  course where course.cid in (select cid from couselect where sid=#{userid,jdbcType=INTEGER})
+  </select>
+  <!-- 查询可选课程 -->
+  <select id="selectAllRestUserCourseByUid" parameterType="java.lang.Integer" resultType="com.example.demo.enity.Course" >
+   select distinct cid,cname from  course where course.cid not in (select cid from couselect where sid=#{userid,jdbcType=INTEGER})
+  </select>
+  
+  <insert id="insertUserCourse" parameterType="com.example.demo.enity.CouSelect">
+    insert into couselect (sid, cid)
+    values (#{sid,jdbcType=INTEGER}, #{cid,jdbcType=INTEGER})
+  </insert>
+</mapper>
